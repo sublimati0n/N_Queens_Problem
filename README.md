@@ -1,3 +1,3 @@
 # N_Queens_Problem
 
-[![Build Status](https://github.com/sublimati0n/N_Queens_Problem.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/sublimati0n/N_Queens_Problem.jl/actions/workflows/CI.yml?query=branch%3Amain)
+久保先生によるnクイーン問題に対する高速解法
