@@ -1,6 +1,7 @@
 module nqueen
 
 using Dates
+using Random
 
 export show_board
 export construct

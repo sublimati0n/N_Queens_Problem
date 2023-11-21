@@ -32,3 +32,6 @@ using ProfileSVG
     end
 end
 @showtime main()
+# ProfileSVG.set_default(maxframes=20000, maxdepth=500)  # 詳細なプロファイルを見たいとき
+# ProfileSVG.@profile main()
+# ProfileSVG.save(string("../prof_n_", ARGS[1], ".svg"))
