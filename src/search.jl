@@ -7,7 +7,7 @@
     diag_up = zeros(Int, n_diag)
     diag_dn = zeros(Int, n_diag)
 
-    for i = 1:n
+    @inbounds @simd for i = 1:n
         # 行i列sol[j]のクイーンによって攻撃される斜め上対角線
         d = i + sol[i] - 1  # 対角線のインデックス
         diag_up[d] += 1
@@ -23,7 +23,7 @@ end
 @inline function collisions(diag::Array{Int})::Int
     # 対角線上の衝突総数を返す
     n_colls = 0
-    for i in diag
+    @inbounds for i in diag
         if i == 0
             continue
         end
@@ -78,9 +78,9 @@ end
 
     cand = Array(1:n)
     trials = 10 * floor(Int, log10(n))  # number of random trials
-    for i = 1:n
+    @inbounds for i = 1:n
         forelse = true
-        for _ in 1:trials
+        @inbounds for _ in 1:trials
             col_id = rand(1:length(cand))
             col = cand[col_id]
             colls = diag_up[i + col - 1] + diag_dn[n - i + col]
@@ -97,7 +97,7 @@ end
             mincolls = 100000000000
             col = -1
             col_id = -1
-            for j in 1:length(cand)
+            @inbounds for j in 1:length(cand)
                 colls = diag_up[i + cand[j] - 1] + diag_dn[n - i + cand[j]]
                 if colls < mincolls
                     mincolls = colls
@@ -140,7 +140,7 @@ end
         i_star = -1
         colls_star = -1
         forelse = true
-        for i in n:-1:1
+        @inbounds for i in n:-1:1
             colls = diag_up[i + sol[i] - 1] + diag_dn[n - i + sol[i]]
             if colls > 2
                 i_star = i
@@ -158,7 +158,7 @@ end
         println("swap candidate is ", i_star)
         delta = -999999999
         j_star = -1
-        for j in 1:n
+        @inbounds for j in 1:n
             if tabu[j] >= n_iter || j == i_star
                 continue
             end

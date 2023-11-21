@@ -1,7 +1,7 @@
 @inline function show_board(sol::Array{Int})::Nothing
     n = length(sol)
-    for i = 1:n
-        for j = 1:n
+    @inbounds for i = 1:n
+        @inbounds for j = 1:n
             if sol[i] == j
                 print("o ")
             else

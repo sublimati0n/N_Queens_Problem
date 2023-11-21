@@ -13,7 +13,9 @@ using ProfileSVG
     up, dn = construct(sol)  # construct initial solution by random greedy
 
     println("--------- Initial solution (random greedy) ---------")
-    show_log(sol, up, dn)
+    if LOG
+        show_log(sol, up, dn)
+    end
 
     println("--------- starting fast tabu search ---------")
     fast_tabu_search!(
@@ -25,6 +27,11 @@ using ProfileSVG
 
     # Show result
     println("--------- Result of tabu search ---------")
-    show_log(sol, up, dn)
+    if LOG
+        show_log(sol, up, dn)
+    end
 end
 @showtime main()
+# ProfileSVG.set_default(maxframes=20000, maxdepth=500)  # 詳細なプロファイルを見たいとき
+# ProfileSVG.@profile main()
+# ProfileSVG.save(string("../prof_n_", ARGS[1], ".svg"))
