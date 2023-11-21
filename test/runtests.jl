@@ -1,6 +1,6 @@
-using N_Queens_Problem
+using nqueen
 using Test
 
-@testset "N_Queens_Problem.jl" begin
-    # Write your tests here.
+@testset "nqueen.jl" begin
+    include("test_search.jl")
 end

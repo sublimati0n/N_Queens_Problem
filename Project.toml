@@ -1,7 +1,10 @@
-name = "N_Queens_Problem"
+name = "nqueen"
 uuid = "928f9a79-15f6-4531-9d01-3bf605cda402"
 authors = ["Tetsushi Saburi"]
 version = "1.0.0-DEV"
+
+[deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
 [compat]
 julia = "1"
