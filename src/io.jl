@@ -1,4 +1,4 @@
-function show_board(sol::Array{Int})::Nothing
+@inline function show_board(sol::Array{Int})::Nothing
     n = length(sol)
     for i = 1:n
         for j = 1:n
@@ -12,11 +12,11 @@ function show_board(sol::Array{Int})::Nothing
     end
 end
 
-function show_log(
+@inline function show_log(
     sol::Array{Int},
     diag_up::Array{Int},
     diag_dn::Array{Int},
-)
+)::Nothing
     println("array: ", sol)
     show_board(sol)
     println("queens on upward diagonals: ", diag_up)

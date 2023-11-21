@@ -1,4 +1,4 @@
-function diagonals(sol::Array{Int})::Tuple{Array{Int}, Array{Int}}
+@inline function diagonals(sol::Array{Int})::Tuple{Array{Int}, Array{Int}}
     # ボード上の各対角線上のクイーンの数を決定する
 
     n = length(sol)  # ボードの大きさ
@@ -20,7 +20,7 @@ function diagonals(sol::Array{Int})::Tuple{Array{Int}, Array{Int}}
     return diag_up, diag_dn
 end
 
-function collisions(diag::Array{Int})::Int
+@inline function collisions(diag::Array{Int})::Int
     # 対角線上の衝突総数を返す
     n_colls = 0
     for i in diag
@@ -33,13 +33,13 @@ function collisions(diag::Array{Int})::Int
     return n_colls
 end
 
-function exchange!(
+@inline function exchange!(
     i::Int,
     j::Int,
     sol::Array{Int},
     diag_up::Array{Int},
     diag_dn::Array{Int}
-)
+)::Nothing
     # 行iと行jを交換し、変更に伴う対角線情報を更新する
     n = length(sol)
 
@@ -65,9 +65,10 @@ function exchange!(
     diag_dn[d] += 1
     d = n + sol[j] - j
     diag_dn[d] += 1
+    return
 end
 
-function construct(sol::Array{Int})::Tuple{Array{Int}, Array{Int}}
+@inline function construct(sol::Array{Int})::Tuple{Array{Int}, Array{Int}}
     # 貪欲的に初期解を構成する
     n = length(sol)
     n_diag = 2n - 1
@@ -115,13 +116,13 @@ function construct(sol::Array{Int})::Tuple{Array{Int}, Array{Int}}
     return diag_up, diag_dn
 end
 
-function fast_tabu_search!(
+@inline function fast_tabu_search!(
     sol::Array{Int},
     diag_up::Array{Int},
     diag_dn::Array{Int};
     LOG::Bool = false,  # 探索中の解と補助変数を表示するかどうか。表示はかなり遅いので注意
     time_threshold::Float64 = 60.0
-)
+)::Nothing
     n = length(sol)
     tabu = ones(Int, n) .* -1
     tabulen = min(10, n)
