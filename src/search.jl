@@ -1,4 +1,4 @@
-@inline function diagonals(sol::Array{Int})::Tuple{Array{Int}, Array{Int}}
+@inline function diagonals(sol::Array{Int})::Tuple{Array{Int},Array{Int}}
     # ボード上の各対角線上のクイーンの数を決定する
 
     n = length(sol)  # ボードの大きさ
@@ -68,7 +68,7 @@ end
     return
 end
 
-@inline function construct(sol::Array{Int})::Tuple{Array{Int}, Array{Int}}
+@inline function construct(sol::Array{Int})::Tuple{Array{Int},Array{Int}}
     # 貪欲的に初期解を構成する
     n = length(sol)
     n_diag = 2n - 1
@@ -83,12 +83,13 @@ end
         @inbounds for _ in 1:trials
             col_id = rand(1:length(cand))
             col = cand[col_id]
-            colls = diag_up[i + col - 1] + diag_dn[n - i + col]
+            colls = diag_up[i+col-1] + diag_dn[n-i+col]
             if colls == 0
                 sol[i] = col
-                diag_up[i + col - 1] += 1
-                diag_dn[n - i + col] += 1
-                deleteat!(cand, col_id)
+                diag_up[i+col-1] += 1
+                diag_dn[n-i+col] += 1
+                cand[col_id] = cand[end]
+                pop!(cand)
                 forelse = false
                 break
             end
@@ -98,7 +99,7 @@ end
             col = -1
             col_id = -1
             @inbounds for j in 1:length(cand)
-                colls = diag_up[i + cand[j] - 1] + diag_dn[n - i + cand[j]]
+                colls = diag_up[i+cand[j]-1] + diag_dn[n-i+cand[j]]
                 if colls < mincolls
                     mincolls = colls
                     col = cand[j]
@@ -108,8 +109,8 @@ end
             @assert col != -1
             @assert col_id != -1
             sol[i] = col
-            diag_up[i + col - 1] += 1
-            diag_dn[n - i + col] += 1
+            diag_up[i+col-1] += 1
+            diag_dn[n-i+col] += 1
             deleteat!(cand, col_id)
         end
     end
@@ -120,8 +121,8 @@ end
     sol::Array{Int},
     diag_up::Array{Int},
     diag_dn::Array{Int};
-    LOG::Bool = false,  # 探索中の解と補助変数を表示するかどうか。表示はかなり遅いので注意
-    time_threshold::Float64 = 60.0
+    LOG::Bool=false,  # 探索中の解と補助変数を表示するかどうか。表示はかなり遅いので注意
+    time_threshold::Float64=60.0
 )::Nothing
     n = length(sol)
     tabu = ones(Int, n) .* -1
@@ -141,7 +142,7 @@ end
         colls_star = -1
         forelse = true
         @inbounds for i in n:-1:1
-            colls = diag_up[i + sol[i] - 1] + diag_dn[n - i + sol[i]]
+            colls = diag_up[i+sol[i]-1] + diag_dn[n-i+sol[i]]
             if colls > 2
                 i_star = i
                 colls_star = colls
@@ -162,7 +163,7 @@ end
             if tabu[j] >= n_iter || j == i_star
                 continue
             end
-            temp = (diag_up[j + sol[j] - 1] + diag_dn[n - j + sol[j]] + colls_star) - (diag_up[i_star + sol[j] - 1] + diag_dn[n - i_star + sol[j]] + diag_up[j + sol[i_star] - 1] + diag_dn[n - j + sol[i_star]])
+            temp = (diag_up[j+sol[j]-1] + diag_dn[n-j+sol[j]] + colls_star) - (diag_up[i_star+sol[j]-1] + diag_dn[n-i_star+sol[j]] + diag_up[j+sol[i_star]-1] + diag_dn[n-j+sol[i_star]])
             if temp > delta
                 delta = temp
                 j_star = j

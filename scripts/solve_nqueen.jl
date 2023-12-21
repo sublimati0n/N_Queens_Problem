@@ -7,7 +7,7 @@ using ProfileSVG
         println("\$1: #queens")
     end
     n = parse(Int, ARGS[1])
-    time_threshold = 60.0
+    time_threshold = 600.0
 
     sol = Array(1:n)
     up, dn = construct(sol)  # construct initial solution by random greedy
@@ -26,8 +26,8 @@ using ProfileSVG
     println("--------- finish fast tabu search ---------")
 
     # Show result
-    println("--------- Result of tabu search ---------")
     if LOG
+        println("--------- Result of tabu search ---------")
         show_log(sol, up, dn)
     end
 end
