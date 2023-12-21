@@ -23,7 +23,6 @@ using ProfileSVG
         LOG=LOG,
         time_threshold=time_threshold
     )
-    println("--------- finish fast tabu search ---------")
 
     # Show result
     if LOG
